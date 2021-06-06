@@ -1,14 +1,43 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { getDecks, removeDeck } from './utils/helpers';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+
+export default class App extends Component {
+  state = ''
+
+  componentDidMount() {
+    getDecks()
+      .then((results) => {
+        const data = JSON.parse(results)
+        this.setState(data)})
+  }
+
+  removeDeck = (id) => {
+    removeDeck(id)
+      .then((results) => {
+        const data = JSON.parse(results)
+        this.setState(data)})
+  }
+
+  render() {
+    const decks = Object.values(this.state)
+    //console.log(this.state)
+    return (
+      <View style={styles.container}>
+        {decks.map((deck) =>
+        <View key={deck.title}>
+          <Text>{deck.title}</Text>
+          <Text>{deck.questions.length} {deck.questions.length > 1 ? 'cards' : 'card'}</Text>
+          <TouchableOpacity
+            onPress={this.removeDeck(deck.title)}
+          >Delete Deck</TouchableOpacity>
+        </View>)}
+        <StatusBar style="auto" />
+      </View>
+    )
+  }
 }
 
 const styles = StyleSheet.create({
