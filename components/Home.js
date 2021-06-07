@@ -25,7 +25,7 @@ class Home extends Component {
       })
   }
 	
-	goToDeck = () => {
+	goToDeck = (deckTitle) => {
 		// go to individual deck
 	}
 
@@ -36,7 +36,7 @@ class Home extends Component {
         {decks.map((deck) =>
         <View key={deck.title}>
           <TouchableHighlight
-						onPress={() => this.goToDeck}
+						onPress={() => this.goToDeck(deckTitle)}
 						>
 						<View>
 							<Text>{deck.title}</Text>

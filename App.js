@@ -6,6 +6,20 @@ import {createStore} from "redux"
 import reducer from "./reducers"
 import Home from './components/Home'
 import NewDeck from './components/NewDeck'
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
+import { NavigationContainer } from '@react-navigation/native'
+import  {FontAwesome, Ionicons} from "@expo/vector-icons"
+
+const Tab = createMaterialTopTabNavigator()
+
+const TabNav = () => (
+  <Tab.Navigator 
+    
+  >
+    <Tab.Screen name='Home' component={Home}/>
+    <Tab.Screen name='New Deck' component={NewDeck}/>
+  </Tab.Navigator>
+)
 
 export default class App extends Component {
 
@@ -13,11 +27,9 @@ export default class App extends Component {
     const store = createStore(reducer)
     return (
       <Provider store={store}>
-        <View style={styles.container}>
-          <Home />
-          <NewDeck />
-          <StatusBar style="auto" />
-        </View>
+        <NavigationContainer>
+          <TabNav />
+        </NavigationContainer>
       </Provider>
     )
   }
