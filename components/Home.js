@@ -25,8 +25,9 @@ class Home extends Component {
       })
   }
 	
-	goToDeck = (deckTitle) => {
+	goToDeck = (deckInfo) => {
 		// go to individual deck
+		this.props.navigation.navigate('Deck View', deckInfo)
 	}
 
   render() {
@@ -36,7 +37,9 @@ class Home extends Component {
         {decks.map((deck) =>
         <View key={deck.title}>
           <TouchableHighlight
-						onPress={() => this.goToDeck(deckTitle)}
+						onPress={() => this.goToDeck({
+																title: deck.title,
+																noOfQuestions: deck.questions.length})}
 						>
 						<View>
 							<Text>{deck.title}</Text>
@@ -63,7 +66,8 @@ const styles = StyleSheet.create({
   },
 });
 
-function mapStateToProps (entries) {
+function mapStateToProps (entries,{ route, navigation}) {
+
 	return {entries: entries }
 }
 
