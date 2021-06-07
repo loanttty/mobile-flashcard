@@ -1,41 +1,24 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { getDecks, removeDeck } from './utils/helpers';
-
+import { StyleSheet, View } from 'react-native';
+import { Provider } from 'react-redux';
+import {createStore} from "redux"
+import reducer from "./reducers"
+import Home from './components/Home'
+import NewDeck from './components/NewDeck'
 
 export default class App extends Component {
-  state = ''
-
-  componentDidMount() {
-    getDecks()
-      .then((results) => {
-        const data = JSON.parse(results)
-        this.setState(data)})
-  }
-
-  removeDeck = (id) => {
-    removeDeck(id)
-      .then((results) => {
-        const data = JSON.parse(results)
-        this.setState(data)})
-  }
 
   render() {
-    const decks = Object.values(this.state)
-    //console.log(this.state)
+    const store = createStore(reducer)
     return (
-      <View style={styles.container}>
-        {decks.map((deck) =>
-        <View key={deck.title}>
-          <Text>{deck.title}</Text>
-          <Text>{deck.questions.length} {deck.questions.length > 1 ? 'cards' : 'card'}</Text>
-          <TouchableOpacity
-            onPress={this.removeDeck(deck.title)}
-          >Delete Deck</TouchableOpacity>
-        </View>)}
-        <StatusBar style="auto" />
-      </View>
+      <Provider store={store}>
+        <View style={styles.container}>
+          <Home />
+          <NewDeck />
+          <StatusBar style="auto" />
+        </View>
+      </Provider>
     )
   }
 }

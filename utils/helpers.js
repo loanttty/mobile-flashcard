@@ -3,14 +3,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 const STORAGE_KEY = 'MobileFlashcard'
 
 function setInitialDummyData () {
+    //console.log(dummyData)
     AsyncStorage.setItem(STORAGE_KEY,JSON.stringify(dummyData))
     return dummyData
 }
 
-function getData (results) {
-    return results === null
-            ? setInitialDummyData()
-            : results
+function getData () {
+    //console.log(Object.keys(results).length)
+    //console.log(Object.values(results))
+    return setInitialDummyData()
 }
 
 export function getDecks () {
@@ -32,14 +33,13 @@ export function saveDeckTitle (id) {
 }
 
 export function removeDeck (id) {
-    AsyncStorage.getItem(STORAGE_KEY)
+    return AsyncStorage.getItem(STORAGE_KEY)
             .then((results) => {
                 const data = JSON.parse(results)
                 data[id] = undefined
                 delete data[id]
                 AsyncStorage.setItem(STORAGE_KEY,JSON.stringify(data))
             })
-    return data
 }
 
 export function addCardToDeck ({id, card}) {
