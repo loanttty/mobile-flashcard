@@ -17,7 +17,7 @@ class DeckView extends Component {
         }
     }
     render() {
-        const {title} = this.props.route.params
+        const title = this.props.route.params
         const noOfQuestions = this.props.entries[title].questions.length
         const {noCard} = this.state
 

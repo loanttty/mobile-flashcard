@@ -38,16 +38,16 @@ const MainNav = () => (
           backgroundColor: 'purple'
       } }} />
     <Stack.Screen
-      name='Add Card'
-      component={AddCard}
-      options={{headerTintColor: 'white', headerStyle:{
-          backgroundColor: 'pink'
-      } }} />
-    <Stack.Screen
       name='Quiz'
       component={Quiz}
       options={{headerTintColor: 'white', headerStyle:{
           backgroundColor: 'blue'
+      } }} />
+    <Stack.Screen
+      name='Add Card'
+      component={AddCard}
+      options={{headerTintColor: 'white', headerStyle:{
+          backgroundColor: 'pink'
       } }} />
   </Stack.Navigator>
 )

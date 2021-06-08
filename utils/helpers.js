@@ -60,7 +60,7 @@ const dummyData = {
         {
             question: 'Is React a library for managing user interfaces?',
             answer: true,
-            explanation: 'N/A'
+            explanation: ''
         },
         {
             question: 'Is the componentDidMount lifecycle event to make Ajax requests in React?',
