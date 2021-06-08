@@ -1,13 +1,95 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import RadioButtonRN from 'radio-buttons-react-native'
+import { connect } from 'react-redux'
+import { addCard } from "../actions/index"
+import { addCardToDeck } from "../utils/helpers"
+
 
 class AddCard extends Component {
+    state = {
+        question: '',
+        answer: '',
+        explanation: '',
+    }
+
+    changeQuestion = (input) => {
+        this.setState({
+            question: input
+        })
+    }
+
+    selectAnswer = ({label}) => {
+        this.setState({
+            answer: label === 'Correct' ? true : false
+        })
+    }
+
+    changeExplanation = (input) => {
+        this.setState({
+            explanation: input
+        })
+    }
+
+    submitCard = () => {
+        const {question, answer, explanation} = this.state
+        addCardToDeck({
+            id: this.props.route.params,
+            question: {
+                question: question,
+                answer: answer,
+                explanation: explanation
+            }
+        })
+            .then(() => {
+                this.props.dispatch(addCard({
+                    id: this.props.route.params,
+                    question: {
+                        question: question,
+                        answer: answer,
+                        explanation: explanation
+                    }
+            }))})
+            .then(() => {
+                this.setState({
+                    question: '',
+                    answer: '',
+                    explanation: '',
+                })
+            })
+    }
     render() {
+        const answerLabels = [
+            {
+                label: 'Correct'
+            },
+            {
+                label: 'Incorrect'
+            }
+        ]
+        const {question, explanation} = this.state
         return(
             <View>
                 <Text>Question</Text>
+                <TextInput 
+                    placeholder='Enter your question here'
+                    value={question}
+                    onChangeText={this.changeQuestion}
+                />
                 <Text>Answer</Text>
-                <TouchableOpacity>
+                <RadioButtonRN 
+                    data={answerLabels}
+                    selectedBtn={(e) => this.selectAnswer(e)}
+                />
+                <Text>Explanation</Text>
+                <TextInput 
+                    placeholder='Enter your explanation here'
+                    value={explanation}
+                    onChangeText={this.changeExplanation}
+                />
+                <TouchableOpacity
+                    onPress={this.submitCard}
+                >
                     <Text>Submit</Text>
                 </TouchableOpacity>
             </View>
@@ -15,4 +97,4 @@ class AddCard extends Component {
     }
 }
 
-export default AddCard
+export default connect()(AddCard)

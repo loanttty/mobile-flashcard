@@ -25,10 +25,10 @@ function entries (state = {}, action) {
         case ADD_CARD:
             return {
                 ...state,
-                [action[card.id]]: {
-                    ...state[card.id],
+                [action.card.id]: {
+                    ...state[action.card.id],
                     questions: [
-                        ...state[card.id].questions,
+                        ...state[action.card.id].questions,
                         action.card.question
                     ]
                 }

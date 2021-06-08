@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
+import { connect } from 'react-redux'
 
-class DeckView extends Component {
+class Quiz extends Component {
     render() {
         return(
              <View>
@@ -15,4 +16,9 @@ class DeckView extends Component {
     }
 }
 
-export default DeckView
+function mapStateToProps (entries) {
+
+	return {entries: entries }
+}
+
+export default connect(mapStateToProps)(Quiz)

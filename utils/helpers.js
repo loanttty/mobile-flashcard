@@ -42,13 +42,12 @@ export function removeDeck (id) {
             })
 }
 
-export function addCardToDeck ({id, card}) {
+export function addCardToDeck ({id, question}) {
     return AsyncStorage.mergeItem(STORAGE_KEY,JSON.stringify({
         [id]: {
             ...id,
             questions: [
-                ...id.questions,
-                card,
+                question
             ]
         }
     }))

@@ -25,9 +25,9 @@ class Home extends Component {
       })
   }
 	
-	goToDeck = (deckInfo) => {
+	goToDeck = (deckTitle) => {
 		// go to individual deck
-		this.props.navigation.navigate('Deck View', deckInfo)
+		this.props.navigation.navigate('Deck View', deckTitle)
 	}
 
   render() {
@@ -37,20 +37,19 @@ class Home extends Component {
         {decks.map((deck) =>
         <View key={deck.title}>
           <TouchableHighlight
-						onPress={() => this.goToDeck({
-																title: deck.title,
-																noOfQuestions: deck.questions.length})}
-						>
-						<View>
-							<Text>{deck.title}</Text>
-							<Text>{deck.questions.length} {deck.questions.length > 1 ? 'cards' : 'card'}</Text>
-							<TouchableOpacity
-								onPress={() => this.removeDeck(deck.title)}
-								>
-								<Text>Delete Deck</Text>
-							</TouchableOpacity>
-						</View>
-					</TouchableHighlight>
+			onPress={() => this.goToDeck({
+				title: deck.title})}
+			>
+			<View>
+				<Text>{deck.title}</Text>
+				<Text>{deck.questions.length} {deck.questions.length > 1 ? 'cards' : 'card'}</Text>
+				<TouchableOpacity
+					onPress={() => this.removeDeck(deck.title)}
+					>
+					<Text>Delete Deck</Text>
+				</TouchableOpacity>
+			</View>
+		</TouchableHighlight>
         </View>)}
       </View>
     	)
@@ -66,7 +65,7 @@ const styles = StyleSheet.create({
   },
 });
 
-function mapStateToProps (entries,{ route, navigation}) {
+function mapStateToProps (entries) {
 
 	return {entries: entries }
 }
