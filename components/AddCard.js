@@ -11,6 +11,7 @@ class AddCard extends Component {
         question: '',
         answer: '',
         explanation: '',
+        error: ''
     }
 
     changeQuestion = (input) => {
@@ -33,30 +34,38 @@ class AddCard extends Component {
 
     submitCard = () => {
         const {question, answer, explanation} = this.state
-        addCardToDeck({
-            id: this.props.route.params,
-            question: {
-                question: question,
-                answer: answer,
-                explanation: explanation
-            }
-        })
-            .then(() => {
-                this.props.dispatch(addCard({
-                    id: this.props.route.params,
-                    question: {
-                        question: question,
-                        answer: answer,
-                        explanation: explanation
-                    }
-            }))})
-            .then(() => {
-                this.setState({
-                    question: '',
-                    answer: '',
-                    explanation: '',
-                })
+
+        if (answer === '') {
+            this.setState({
+                error: <Text>Please select your answer</Text>
             })
+        } else {
+            addCardToDeck({
+                id: this.props.route.params,
+                question: {
+                    question: question,
+                    answer: answer,
+                    explanation: explanation
+                }
+            })
+                .then(() => {
+                    this.props.dispatch(addCard({
+                        id: this.props.route.params,
+                        question: {
+                            question: question,
+                            answer: answer,
+                            explanation: explanation
+                        }
+                }))})
+                .then(() => {
+                    this.setState({
+                        question: '',
+                        answer: '',
+                        explanation: '',
+                        error: ''
+                    })
+                })
+        }
     }
     render() {
         const answerLabels = [
@@ -67,7 +76,7 @@ class AddCard extends Component {
                 label: 'Incorrect'
             }
         ]
-        const {question, explanation} = this.state
+        const {question, explanation, error} = this.state
         return(
             <View>
                 <Text>Question</Text>
@@ -87,6 +96,7 @@ class AddCard extends Component {
                     value={explanation}
                     onChangeText={this.changeExplanation}
                 />
+                {error ? error : null}
                 <TouchableOpacity
                     onPress={this.submitCard}
                 >

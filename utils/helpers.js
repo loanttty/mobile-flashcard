@@ -64,7 +64,7 @@ const dummyData = {
         },
         {
             question: 'Is the componentDidMount lifecycle event to make Ajax requests in React?',
-            answer: false,
+            answer: true,
             explanation: 'N/A'
         }
       ]
