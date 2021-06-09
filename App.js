@@ -13,6 +13,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { NavigationContainer } from '@react-navigation/native'
 import  {FontAwesome, Ionicons} from "@expo/vector-icons"
 import { createStackNavigator} from "@react-navigation/stack"
+import { setLocalNotification } from './utils/helpers';
 
 const Tab = createMaterialTopTabNavigator()
 
@@ -53,6 +54,10 @@ const MainNav = () => (
 )
 
 export default class App extends Component {
+
+  componentDidMount() {
+    setLocalNotification()
+  }
 
   render() {
     const store = createStore(reducer)

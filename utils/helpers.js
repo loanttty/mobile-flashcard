@@ -1,16 +1,53 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import * as Notifications from 'expo-notifications'
 
 const STORAGE_KEY = 'MobileFlashcard'
+const NOTIFICATION_KEY = 'MobileFlashcard:notifications'
+
+export function clearLocalNotification () {
+  return AsyncStorage.clearItem(NOTIFICATION_KEY)
+          .then(Notifications.cancelAllScheduledNotificationAsync)
+}
+
+function createNotification () {
+  return {
+    title: 'Take a quiz!',
+    body: "🔔 Don't forget to take a quiz today!",
+    android: {
+      sound: true,
+      priority: 'high',
+      sticky:  false,
+      vibrate: true
+    }
+  }
+}
+
+export function setLocalNotification () {
+  AsyncStorage.getItem(NOTIFICATION_KEY)
+    .then(JSON.parse)
+    .then(() => {
+        let tomorrow = new Date()
+
+        tomorrow.setDate(tomorrow.getDate() + 1)
+        tomorrow.setHours(20)
+        tomorrow.setMinutes(0)
+
+        Notifications.scheduleNotificationAsync({
+        content: createNotification(),
+        trigger: {
+            hour: tomorrow.getHours, minute: tomorrow.getMinutes, repeats: 'day'
+        }}
+        )
+        AsyncStorage.setItem(NOTIFICATION_KEY,JSON.stringify(true))
+    })
+}
 
 function setInitialDummyData () {
-    //console.log(dummyData)
     AsyncStorage.setItem(STORAGE_KEY,JSON.stringify(dummyData))
     return dummyData
 }
 
 function getData () {
-    //console.log(Object.keys(results).length)
-    //console.log(Object.values(results))
     return setInitialDummyData()
 }
 

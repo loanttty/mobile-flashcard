@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { connect } from 'react-redux'
 import RadioButtonRN from 'radio-buttons-react-native'
+import {clearLocalNotification,
+        setLocalNotification} from "../utils/helpers"
 
 class Quiz extends Component {
     state ={
@@ -33,11 +35,9 @@ class Quiz extends Component {
     }
 
     retry = (answer) => {
-        console.log(answer)
         const {questionActiveIndex, questionAnsweredList, correct} = this.state
         
         const correctAdjusted = questionAnsweredList[questionActiveIndex] === answer ? (correct - 1) : correct
-        console.log(questionAnsweredList[questionActiveIndex])
         
         questionAnsweredList[questionActiveIndex] = undefined
         delete questionAnsweredList[questionActiveIndex]
@@ -56,8 +56,6 @@ class Quiz extends Component {
         const title = this.props.route.params
         const questions = this.props.entries[title].questions
         
-        console.log(questionAnsweredBefore)
-
         if ((questionActiveIndex + 1) < questions.length) {
             this.setState((state) => ({
                 questionActiveIndex: state.questionActiveIndex + 1,
@@ -68,6 +66,8 @@ class Quiz extends Component {
             this.setState({
                 finishQuiz: true
             })
+
+            clearLocalNotification().then(setLocalNotification)
         }
     }
 
@@ -98,8 +98,6 @@ class Quiz extends Component {
             {label: 'Incorrect'}
         ]
 
-        console.log(this.state)
-        
         return(
              <View>
                 <Text>{title}</Text>
