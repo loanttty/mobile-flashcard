@@ -26,16 +26,13 @@ export function setLocalNotification () {
   AsyncStorage.getItem(NOTIFICATION_KEY)
     .then(JSON.parse)
     .then(() => {
-        let tomorrow = new Date()
-
-        tomorrow.setDate(tomorrow.getDate() + 1)
-        tomorrow.setHours(20)
-        tomorrow.setMinutes(0)
 
         Notifications.scheduleNotificationAsync({
         content: createNotification(),
         trigger: {
-            hour: tomorrow.getHours, minute: tomorrow.getMinutes, repeats: 'day'
+            hour: 16, 
+            minute: 55, 
+            repeats: true
         }}
         )
         AsyncStorage.setItem(NOTIFICATION_KEY,JSON.stringify(true))

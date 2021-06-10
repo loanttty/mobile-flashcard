@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Button, StyleSheet, Text, TextInput, View, KeyboardAvoidingView } from 'react-native';
 import { saveDeckTitle } from '../utils/helpers';
 import { connect } from 'react-redux'
 import { addDeck } from '../actions';
@@ -35,21 +35,27 @@ class NewDeck extends Component {
         const {textInput,existingTitle} = this.state
         return (
             <View style={styles.container}>
-                <Text>What is the title of your new deck?</Text>
-                <TextInput 
-                    placeholder='Deck Title'
-                    value={textInput}
-                    onChangeText={this.changeTextInput}
-                />
-                <TouchableOpacity
-                    disabled={textInput === '' ? true : false}
-                    onPress={this.validateNewTitle}
-                >
-                    <Text>Submit</Text>
-                </TouchableOpacity>
-                {existingTitle
-                    ? <Text>This title has already existed.Please choose another name.</Text>
-                    : null}
+                    <Text style={styles.title}>What is the title of your new deck?</Text>
+                    <TextInput 
+                        placeholder='Deck Title'
+                        value={textInput}
+                        onChangeText={this.changeTextInput}
+                        style={styles.textInput}
+                    />
+                    <View style={styles.submitBtn}>
+                        <Button 
+                            disabled={textInput === '' ? true : false}
+                            onPress={this.validateNewTitle}
+                            title="submit"
+                            color='rebeccapurple'
+                        />
+                    </View>
+                    {existingTitle
+                        ? <View style={styles.message}>
+                                <Text style={styles.messageText}>This title has already existed.</Text>
+                                <Text style={styles.messageText}>Please choose another name.</Text>
+                            </View>
+                        : null}
             </View>
         )
     }
@@ -60,8 +66,37 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
   },
+  textInput: {
+	color: 'darkslateblue',
+    fontSize: 20,
+	padding: 20,
+    justifyContent: 'center',
+    backgroundColor: 'aliceblue',
+    borderRadius: 10,
+    width: 280,
+    textAlign: 'center'
+    },
+  title: {
+	  color: 'cornflowerblue',
+	  textAlign: 'center',
+	  fontWeight: 'bold',
+	  fontSize: 20,
+      marginBottom: 20,
+      marginTop: 100
+  },
+  message: {
+	  textAlign: 'center',
+	  fontSize: 15,
+      marginTop: 20
+  },
+  messageText: {
+      color: 'mediumvioletred',
+  },
+  submitBtn: {
+	  marginTop: 20,
+  }	
 });
 
 function mapStateToProps (entries) {
