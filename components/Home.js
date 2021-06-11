@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
 import { getDecks, removeDeck } from '../utils/helpers';
 import { connect } from 'react-redux'
 import {receiveEntries, deleteDeck} from '../actions'
-import  {FontAwesome, Ionicons} from "@expo/vector-icons"
+import  {FontAwesome} from "@expo/vector-icons"
 
 class Home extends Component {
 	state = {
@@ -34,25 +34,27 @@ class Home extends Component {
 	const decks = Object.values(this.props.entries)
 	return (
 	  <View style={styles.container}>
-        {decks.map((deck) =>
-			<View key={deck.title} >
-				<TouchableHighlight
-					onPress={() => this.goToDeck(deck.title)}
-					activeOpacity={0.6} 
-					underlayColor={'lightskyblue'}
-					style={styles.deckBox}
-					>
-					<View >
-						<Text style={styles.title}>{deck.title}</Text>
-						<Text style={styles.subTitle}>{deck.questions.length} {deck.questions.length > 1 ? 'cards' : 'card'}</Text>
-						<TouchableOpacity
-							onPress={() => this.removeDeck(deck.title)}
+		  <ScrollView contentContainerStyle={styles.scrollView} snapToEnd={false}>
+			{decks.map((deck) =>
+				<View key={deck.title} >
+					<TouchableHighlight
+						onPress={() => this.goToDeck(deck.title)}
+						activeOpacity={0.6} 
+						underlayColor={'lightskyblue'}
+						style={styles.deckBox}
 						>
-							<FontAwesome name="trash" style={styles.deleteDeckBtn}/>
-						</TouchableOpacity>
-					</View>
-				</TouchableHighlight>
-			</View>)}
+						<View >
+							<Text style={styles.title}>{deck.title}</Text>
+							<Text style={styles.subTitle}>{deck.questions.length} {deck.questions.length > 1 ? 'cards' : 'card'}</Text>
+							<TouchableOpacity
+								onPress={() => this.removeDeck(deck.title)}
+							>
+								<FontAwesome name="trash" style={styles.deleteDeckBtn}/>
+							</TouchableOpacity>
+						</View>
+					</TouchableHighlight>
+				</View>)}
+		  </ScrollView>
       </View>
     	)
   }
@@ -62,8 +64,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+	margin: 0,
+},
+scrollView: {
+	backgroundColor: '#fff',
+	alignItems: 'center',
+	margin: 0,
   },
   deckBox: {
 	backgroundColor: 'cornflowerblue',
@@ -72,6 +78,7 @@ const styles = StyleSheet.create({
 	padding: 20,
 	marginHorizontal: 10,
 	marginTop: 17,
+	marginBottom: 12,
     justifyContent: 'center',
     },
   title: {

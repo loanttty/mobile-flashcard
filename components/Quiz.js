@@ -66,7 +66,6 @@ class Quiz extends Component {
             this.setState({
                 finishQuiz: true
             })
-
             clearLocalNotification().then(setLocalNotification)
         }
     }
@@ -99,57 +98,69 @@ class Quiz extends Component {
         ]
 
         return(
-             <View>
-                <Text>{title}</Text>
-                <Text>Correct Answers: {correct}/{questions.length}</Text>
-                <Text>Question {questionActiveIndex + 1}</Text>
+             <View style={styles.container}>
+                <Text style={styles.title}>{title}</Text>
+                <Text style={styles.subTitle}>Correct Answers: {correct}/{questions.length}</Text>
                 {finishQuiz === true
-                    ? <View>
-                        <Text>Congrat! You've finished the quiz!</Text>
+                    ? <View style={{marginTop: 20, alignItems: 'center'}}>
+                        <Text style={styles.answerText}>Congrat! You've finished the quiz!</Text>
                         <TouchableOpacity
                             onPress={this.redoQuiz}
+                            style={[styles.btn, {width: 190, backgroundColor: 'firebrick'}]}
                         >
-                            <Text>Wanna try again?</Text>
+                            <Text style={styles.btnText}>Wanna try again?</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             onPress={this.goBack}
+                            style={[styles.btn, {width: 190, backgroundColor: 'firebrick'}]}
                         >
-                            <Text>Back To Deck</Text>
+                            <Text style={styles.btnText}>Back To Deck</Text>
                         </TouchableOpacity>
                       </View>
-                    : <View>
-                        <Text>{question}</Text>
+                    : <View style={{alignItems: 'center'}}>
+                        <Text style={[styles.title, {fontSize: 17}]}>Question {questionActiveIndex + 1}</Text>
+                        <Text style={styles.questionText}>{question}</Text>
                             {questionAnswered === true
-                                ? <View>
+                                ? <View style={styles.answer}>
                                     {answer === usersAnswer 
                                         ? <View>
-                                            <Text>This statement is {answer === true ? `correct` : `incorrect`}. You've got it!</Text>
-                                            {explanation !== '' && <Text>{explanation}</Text>}
+                                            <Text style={styles.answerText}>🎉 This statement is {answer === true ? `correct` : `incorrect`} 🎉</Text>
+                                            <Text style={styles.answerText}> You've got it!</Text>
+                                            {explanation !== '' && <Text style={styles.answerText}>{explanation}</Text>}
                                         </View>
                                         : <View>
-                                            <Text>Ouch! Your answer is incorrect.</Text>
-                                            {explanation !== '' && <Text>{explanation}</Text>}
+                                            <Text style={styles.answerText}>☹ Ouch! Your answer is incorrect.</Text>
+                                            {explanation !== '' && <Text style={styles.answerText}>{explanation}</Text>}
                                         </View>
                                     }
-                                    <TouchableOpacity
-                                        onPress={this.back}
-                                    >
-                                        {questions.length >= (questionActiveIndex + 1) && (questionActiveIndex > 0 ) ? <Text>Back</Text> : null}
-                                    </TouchableOpacity>
+                                    {questions.length >= (questionActiveIndex + 1) && (questionActiveIndex > 0 ) 
+                                        ? <TouchableOpacity
+                                            onPress={this.back}
+                                            style={styles.btn}
+                                         >
+                                            <Text style={styles.btnText}>BACK</Text>
+                                         </TouchableOpacity>
+                                        : null}
                                     <TouchableOpacity
                                         onPress={() => this.retry(answer)}
+                                        style={styles.btn}
                                     >
-                                        {questions.length >= (questionActiveIndex + 1) ? <Text>Retry</Text> : null}
+                                        {questions.length >= (questionActiveIndex + 1) ? <Text style={styles.btnText}>RETRY</Text> : null}
                                     </TouchableOpacity>
                                     <TouchableOpacity
                                         onPress={this.next}
+                                        style={styles.btn}
                                     >
-                                        {(questionActiveIndex + 1) < questions.length ? <Text>Next</Text> : <Text>Finish</Text>}
+                                        {(questionActiveIndex + 1) < questions.length 
+                                            ? <Text style={styles.btnText}>NEXT</Text> 
+                                            : <Text style={styles.btnText}>FINISH</Text>}
                                     </TouchableOpacity>
                                 </View>
                                 : <RadioButtonRN 
                                     data={optionLabels}
                                     selectedBtn={({label}) => this.select(label, questionActiveIndex, answer)}
+                                    boxStyle={{width: 150}}
+                                    textStyle={{paddingHorizontal: 10, color: 'cornflowerblue', fontSize: 18}}
                                 />
                             }   
                     </View>
@@ -158,6 +169,57 @@ class Quiz extends Component {
         )
     }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    margin: 0,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
+  title: {
+	  color: 'cornflowerblue',
+	  textAlign: 'center',
+	  fontWeight: 'bold',
+	  fontSize: 25,
+      marginBottom: 10,
+      marginTop: 30
+  },
+  subTitle: {
+	  color: 'cornflowerblue',
+	  textAlign: 'center',
+	  fontSize: 18
+  },
+  questionText: {
+      color: 'mediumvioletred',
+      margin: 12,
+      textAlign: 'center'
+  },
+  answer: {
+    margin: 20,
+    alignItems: 'center'
+  },
+  answerText: {
+	  color: 'crimson',
+	  textAlign: 'center',
+	  fontSize: 18
+  },
+  btnText: {
+	  color: 'white',
+      fontSize: 14,
+      fontWeight: 'bold',
+      textAlign: 'center',
+  },
+  btn: {
+	backgroundColor: 'deepskyblue',
+	width: 80,
+	borderRadius: 10,
+	padding: 10,
+    justifyContent: 'center',
+    marginTop: 20,
+    },
+});
 
 function mapStateToProps (entries) {
 	return {entries: entries }

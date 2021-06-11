@@ -15,7 +15,6 @@ import { NavigationContainer } from '@react-navigation/native'
 import  {FontAwesome, Ionicons} from "@expo/vector-icons"
 import { createStackNavigator} from "@react-navigation/stack"
 import { setLocalNotification } from './utils/helpers'
-import { white, gray, blue, pink, purple } from './utils/helpers'
 
 
 const Tab = createMaterialTopTabNavigator()
@@ -37,7 +36,7 @@ const TabNav = () => (
       showIcon: true,
       showLabel: false,
       tabStyle: {
-        height: 50
+        height: 55
       }
     }}
   >
@@ -57,29 +56,29 @@ const MainNav = () => (
     <Stack.Screen
       name='Deck View'
       component={DeckView}
-      options={{headerTintColor: white, 
+      options={{headerTintColor: 'dimgray', 
                 headerStyle:{
-                  backgroundColor: purple
+                  backgroundColor: 'gainsboro'
                 } }} />
     <Stack.Screen
       name='Quiz'
       component={Quiz}
-      options={{headerTintColor: white, headerStyle:{
-          backgroundColor: blue
+      options={{headerTintColor: 'white', headerStyle:{
+          backgroundColor: 'azure'
       } }} />
     <Stack.Screen
       name='Add Card'
       component={AddCard}
-      options={{headerTintColor: white, headerStyle:{
-          backgroundColor: pink
+      options={{headerTintColor:'white', headerStyle:{
+          backgroundColor: 'honeydew'
       } }} />
   </Stack.Navigator>
 )
 
-function UdaciStatusBar ({...props}) {
+function MFStatusBar ({backgroundColor,...props}) {
   return (
-    <View style={{height: Constants.statusBarHeight }} >
-      <StatusBar {...props} />
+    <View style={{backgroundColor, height: Constants.statusBarHeight }} >
+      <StatusBar backgroundColor={backgroundColor} {...props} />
     </View>
   )
 }
@@ -95,7 +94,7 @@ export default class App extends Component {
     return (
       <Provider store={store}>
         <NavigationContainer>
-          <UdaciStatusBar style='dark' />
+          <MFStatusBar backgroundColor={'gray'} style='light' />
           <MainNav />
         </NavigationContainer>
       </Provider>
