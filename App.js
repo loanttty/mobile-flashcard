@@ -12,7 +12,7 @@ import AddCard from './components/AddCard'
 import Quiz from './components/Quiz'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import { NavigationContainer } from '@react-navigation/native'
-import  {FontAwesome, Ionicons} from "@expo/vector-icons"
+import  {FontAwesome} from "@expo/vector-icons"
 import { createStackNavigator} from "@react-navigation/stack"
 import { setLocalNotification } from './utils/helpers'
 
@@ -56,21 +56,21 @@ const MainNav = () => (
     <Stack.Screen
       name='Deck View'
       component={DeckView}
-      options={{headerTintColor: 'dimgray', 
+      options={{headerTintColor: 'white', 
                 headerStyle:{
-                  backgroundColor: 'gainsboro'
+                  backgroundColor: 'dodgerblue'
                 } }} />
     <Stack.Screen
       name='Quiz'
       component={Quiz}
       options={{headerTintColor: 'white', headerStyle:{
-          backgroundColor: 'azure'
+          backgroundColor: 'dodgerblue'
       } }} />
     <Stack.Screen
       name='Add Card'
       component={AddCard}
       options={{headerTintColor:'white', headerStyle:{
-          backgroundColor: 'honeydew'
+          backgroundColor: 'dodgerblue'
       } }} />
   </Stack.Navigator>
 )
@@ -94,7 +94,7 @@ export default class App extends Component {
     return (
       <Provider store={store}>
         <NavigationContainer>
-          <MFStatusBar backgroundColor={'gray'} style='light' />
+          <MFStatusBar backgroundColor={'lightskyblue'} style='dark' />
           <MainNav />
         </NavigationContainer>
       </Provider>

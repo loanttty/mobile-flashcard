@@ -3,6 +3,7 @@ import { ScrollView, StyleSheet, Text, TouchableHighlight, TouchableOpacity, Vie
 import { getDecks, removeDeck } from '../utils/helpers';
 import { connect } from 'react-redux'
 import {receiveEntries, deleteDeck} from '../actions'
+import AppLoading from 'expo-app-loading';
 import  {FontAwesome} from "@expo/vector-icons"
 
 class Home extends Component {
@@ -32,9 +33,14 @@ class Home extends Component {
 
   render() {
 	const decks = Object.values(this.props.entries)
+
+	if (this.state.ready === false) {
+		return <AppLoading />
+	}
+
 	return (
 	  <View style={styles.container}>
-		  <ScrollView contentContainerStyle={styles.scrollView} snapToEnd={false}>
+		  <ScrollView contentContainerStyle={styles.scrollView}>
 			{decks.map((deck) =>
 				<View key={deck.title} >
 					<TouchableHighlight
@@ -66,10 +72,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
 	margin: 0,
 },
-scrollView: {
+  scrollView: {
 	backgroundColor: '#fff',
+	justifyContent: 'center',
 	alignItems: 'center',
-	margin: 0,
+	paddingTop: 40
   },
   deckBox: {
 	backgroundColor: 'cornflowerblue',
@@ -77,8 +84,7 @@ scrollView: {
 	borderRadius: 10 ,
 	padding: 20,
 	marginHorizontal: 10,
-	marginTop: 17,
-	marginBottom: 12,
+	marginBottom: 20,
     justifyContent: 'center',
     },
   title: {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, StyleSheet, Text, TextInput, View, KeyboardAvoidingView } from 'react-native';
+import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import { saveDeckTitle } from '../utils/helpers';
 import { connect } from 'react-redux'
 import { addDeck } from '../actions';
@@ -25,6 +25,7 @@ class NewDeck extends Component {
                 existingTitle: true})
             : saveDeckTitle(textInput)
                 .then(() => this.props.dispatch(addDeck(textInput)))
+                .then(() => this.props.navigation.navigate('Deck View', textInput))
                 .then(() => this.setState({
                     textInput: '',
                     existingTitle: false
@@ -46,7 +47,7 @@ class NewDeck extends Component {
                         <Button 
                             disabled={textInput === '' ? true : false}
                             onPress={this.validateNewTitle}
-                            title="submit"
+                            title="create deck"
                             color='rebeccapurple'
                         />
                     </View>
